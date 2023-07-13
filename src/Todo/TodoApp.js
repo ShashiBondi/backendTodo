@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { v4 } from "uuid";
-// Create an axios instance with base URL
+import "./TodoApp.css";
+
 const api = axios.create({
-  baseURL: "http://localhost:9999/api/", // Replace with your backend base URL
+  baseURL: "http://localhost:9999/api/",
 });
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [radio, setRadio] = useState("All");
+  const [editTodoId, setEditTodoId] = useState();
 
   const fetchTodos = async () => {
     try {
@@ -27,6 +29,7 @@ const TodoApp = () => {
   const handleInputChange = (event) => {
     setNewTodo(event.target.value);
   };
+
   const handleRadio = (event) => {
     setRadio(event.target.value);
   };
@@ -42,28 +45,36 @@ const TodoApp = () => {
       const newTodos = todos.concat(todoItem);
       setTodos(newTodos);
     } catch (error) {
-      console.log("error occured while creating todo", error);
+      console.log("error occurred while creating todo", error);
     }
     setNewTodo("");
+  };
+
+  const updateTodo = async () => {
+    const targetTodo = todos.find((item) => item.id === editTodoId);
+    await api.put(`todos/${editTodoId}`, {
+      content: newTodo,
+      completed: targetTodo.completed,
+    });
+    setNewTodo("");
+    setEditTodoId();
+    fetchTodos();
   };
 
   const deleteTodo = async (id) => {
     try {
       await api.delete(`todos/${id}`);
-      const filteredTodos = todos.filter((item) => {
-        if (item.id !== id) return true;
-      });
+      const filteredTodos = todos.filter((item) => item.id !== id);
       setTodos(filteredTodos);
     } catch (error) {
-      console.log("error occured while deleting the todo", error);
+      console.log("error occurred while deleting the todo", error);
     }
   };
 
   const toggleComplete = async (id) => {
     try {
-      const targetTodoItem = todos.find((item) => {
-        if (item.id === id) return true;
-      });
+      const targetTodoItem = todos.find((item) => item.id === id);
+
       await api.put(`todos/${id}`, { completed: !targetTodoItem.completed });
       const toggledTodos = todos.map((item) => {
         if (item.id === id) {
@@ -73,9 +84,16 @@ const TodoApp = () => {
       });
       setTodos(toggledTodos);
     } catch (error) {
-      console.log("error occured while toggling the item", error);
+      console.log("error occurred while toggling the item", error);
     }
   };
+
+  const handleEditButtonClick = (id) => {
+    const targetTodoItem = todos.find((item) => item.id === id);
+    setNewTodo(targetTodoItem.content);
+    setEditTodoId(id);
+  };
+
   const displayTodos = todos
     .filter((item) => {
       if (radio === "All") return true;
@@ -84,16 +102,21 @@ const TodoApp = () => {
     })
     .map((item) => {
       return (
-        <div key={item.id}>
-          <span
-            style={{
-              textDecoration: item.completed ? "line-through" : "none",
-            }}
-          >
+        <div key={item.id} className="todo-item">
+          <span className={item.completed ? "completed" : ""}>
             {item.content}
           </span>
-          <button onClick={() => deleteTodo(item.id)}>Delete</button>
-          <button>Update</button>
+          <button className="delete-button" onClick={() => deleteTodo(item.id)}>
+            Delete
+          </button>
+          <button
+            className="update-button"
+            onClick={() => {
+              handleEditButtonClick(item.id);
+            }}
+          >
+            Edit
+          </button>
           <input
             type="checkbox"
             checked={item.completed}
@@ -104,16 +127,24 @@ const TodoApp = () => {
     });
 
   return (
-    <div>
-      <h1>Todo App</h1>
-      <input
-        type="text"
-        value={newTodo}
-        onChange={handleInputChange}
-        placeholder="New Todo"
-      />
-      <button onClick={createTodo}>Add Todo</button>
-      <div>
+    <div className="todo-app">
+      <h1>Add Your Todo's</h1>
+      <div className="input-container">
+        <input
+          type="text"
+          value={newTodo}
+          onChange={handleInputChange}
+          placeholder="New Todo"
+          className="todo-input"
+        />
+        <button
+          className="add-button"
+          onClick={editTodoId ? updateTodo : createTodo}
+        >
+          {editTodoId ? "Update Todo" : "Add Todo"}
+        </button>
+      </div>
+      <div className="filter-options">
         <span>
           <input
             type="radio"
@@ -143,7 +174,7 @@ const TodoApp = () => {
         </span>
       </div>
 
-      {displayTodos}
+      <div className="todos-container">{displayTodos}</div>
     </div>
   );
 };
