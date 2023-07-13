@@ -51,6 +51,7 @@ const TodoApp = () => {
   };
 
   const updateTodo = async () => {
+    if (!newTodo.trim()) return;
     const targetTodo = todos.find((item) => item.id === editTodoId);
     await api.put(`todos/${editTodoId}`, {
       content: newTodo,
