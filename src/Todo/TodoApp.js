@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { v4 } from "uuid";
 // Create an axios instance with base URL
 const api = axios.create({
   baseURL: "http://localhost:9999/api/", // Replace with your backend base URL
@@ -9,10 +9,7 @@ const api = axios.create({
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
+  const [radio, setRadio] = useState("All");
 
   const fetchTodos = async () => {
     try {
@@ -23,43 +20,88 @@ const TodoApp = () => {
     }
   };
 
-  const createTodo = async () => {
-    if (newTodo.trim() === "") {
-      return;
-    }
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
+  const handleInputChange = (event) => {
+    setNewTodo(event.target.value);
+  };
+  const handleRadio = (event) => {
+    setRadio(event.target.value);
+  };
+
+  const createTodo = async () => {
     try {
-      const response = await api.post("todos", { content: newTodo });
-      setTodos([...todos, response.data]);
-      setNewTodo("");
+      if (!newTodo.trim()) return;
+      const response = await api.post("todos", {
+        content: newTodo,
+        completed: false,
+      });
+      const todoItem = response.data;
+      const newTodos = todos.concat(todoItem);
+      setTodos(newTodos);
     } catch (error) {
-      console.error("Error creating todo:", error);
+      console.log("error occured while creating todo", error);
     }
+    setNewTodo("");
   };
 
   const deleteTodo = async (id) => {
     try {
       await api.delete(`todos/${id}`);
-      const updatedTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(updatedTodos);
+      const filteredTodos = todos.filter((item) => {
+        if (item.id !== id) return true;
+      });
+      setTodos(filteredTodos);
     } catch (error) {
-      console.error("Error deleting todo:", error);
+      console.log("error occured while deleting the todo", error);
     }
   };
 
   const toggleComplete = async (id) => {
     try {
-      const todo = todos.find((todo) => todo.id === id);
-      const updatedTodo = { ...todo, completed: !todo.completed };
-      await api.put(`todos/${id}`, updatedTodo);
-      const updatedTodos = todos.map((todo) =>
-        todo.id === id ? updatedTodo : todo
-      );
-      setTodos(updatedTodos);
+      const targetTodoItem = todos.find((item) => {
+        if (item.id === id) return true;
+      });
+      await api.put(`todos/${id}`, { completed: !targetTodoItem.completed });
+      const toggledTodos = todos.map((item) => {
+        if (item.id === id) {
+          item.completed = !item.completed;
+        }
+        return item;
+      });
+      setTodos(toggledTodos);
     } catch (error) {
-      console.error("Error updating todo:", error);
+      console.log("error occured while toggling the item", error);
     }
   };
+  const displayTodos = todos
+    .filter((item) => {
+      if (radio === "All") return true;
+      else if (radio === "Completed") return item.completed;
+      else return !item.completed;
+    })
+    .map((item) => {
+      return (
+        <div key={item.id}>
+          <span
+            style={{
+              textDecoration: item.completed ? "line-through" : "none",
+            }}
+          >
+            {item.content}
+          </span>
+          <button onClick={() => deleteTodo(item.id)}>Delete</button>
+          <button>Update</button>
+          <input
+            type="checkbox"
+            checked={item.completed}
+            onChange={() => toggleComplete(item.id)}
+          />
+        </div>
+      );
+    });
 
   return (
     <div>
@@ -67,29 +109,41 @@ const TodoApp = () => {
       <input
         type="text"
         value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
+        onChange={handleInputChange}
         placeholder="New Todo"
       />
       <button onClick={createTodo}>Add Todo</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <span
-              style={{
-                textDecoration: todo.completed ? "line-through" : "none",
-              }}
-            >
-              {todo.content}
-            </span>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleComplete(todo.id)}
-            />
-          </li>
-        ))}
-      </ul>
+      <div>
+        <span>
+          <input
+            type="radio"
+            value="All"
+            onChange={handleRadio}
+            checked={radio === "All"}
+          />
+          All tasks
+        </span>{" "}
+        <span>
+          <input
+            type="radio"
+            value="Completed"
+            onChange={handleRadio}
+            checked={radio === "Completed"}
+          />
+          Completed Tasks
+        </span>{" "}
+        <span>
+          <input
+            type="radio"
+            value="Pending"
+            onChange={handleRadio}
+            checked={radio === "Pending"}
+          />
+          Pending Tasks
+        </span>
+      </div>
+
+      {displayTodos}
     </div>
   );
 };
