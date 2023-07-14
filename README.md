@@ -97,3 +97,30 @@ toggleComplete: Makes a PUT request to the endpoint specific to the todo item be
 
 Displaying Todos 
 The displayTodos variable filters the todos based on the selected filter option (radio) and maps each todo item to a JSX element. It displays the content, delete button, edit button, and a checkbox to toggle the completion status of each todo item.
+
+Features
+
+Create a new todo item by entering the content in the input field and clicking "Add Todo".
+Update an existing todo item by selecting the item to edit, modifying the content, and clicking "Update Todo".
+Delete a todo item by clicking the "Delete" button next to it.
+Toggle the completion status of a todo item by clicking the checkbox next to it.
+Filter todos based on their completion status using the radio buttons.
+Retrieve the list of todos from a RESTful API backend.
+Display the list of todos with their content, completion status, and action buttons.
+
+Dependencies
+
+The TodoApp component depends on the following packages:
+react: JavaScript library for building user interfaces.
+axios: Promise-based HTTP client for making API requests.
+uuid: Package for generating unique IDs.(we have generated unique id's in the backend, but we can generate here as well ther's an option.
+
+
+API Documentation
+
+The TodoApp component interacts with the following API endpoints:
+GET /api/todos: Retrieves all todos.
+POST /api/todos: Creates a new todo.
+PUT /api/todos/{id}: Updates a todo by ID.
+DELETE /api/todos/{id}: Deletes a todo by ID.
+
