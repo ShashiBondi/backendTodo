@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { v4 } from "uuid";
 import "./TodoApp.css";
-
+import { useNavigate } from "react-router";
 const api = axios.create({
   baseURL: "http://localhost:9999/api/",
 });
@@ -12,6 +12,7 @@ const TodoApp = () => {
   const [newTodo, setNewTodo] = useState("");
   const [radio, setRadio] = useState("All");
   const [editTodoId, setEditTodoId] = useState();
+  const navigate = useNavigate();
 
   const fetchTodos = async () => {
     try {
@@ -94,6 +95,9 @@ const TodoApp = () => {
     setNewTodo(targetTodoItem.content);
     setEditTodoId(id);
   };
+  const handleLogoutButton = () => {
+    navigate("/");
+  };
 
   const displayTodos = todos
     .filter((item) => {
@@ -129,7 +133,8 @@ const TodoApp = () => {
 
   return (
     <div className="todo-app">
-      <h1>Add Your Todo's</h1>
+      <h1>Welcome User, Add Your Todo's </h1>
+
       <div className="input-container">
         <input
           type="text"
@@ -176,6 +181,12 @@ const TodoApp = () => {
       </div>
 
       <div className="todos-container">{displayTodos}</div>
+      <div className="button-container">
+        {" "}
+        <button className="button-btn" onClick={handleLogoutButton}>
+          Logout
+        </button>
+      </div>
     </div>
   );
 };
