@@ -5,8 +5,9 @@ import "./Main.css";
 export default function Main() {
   return (
     <div className="main-container">
-      <div className="main-title">Welcome to the ToDo App</div>
+      <div className="main-title">Welcome to the Todo App</div>
       <div className="link-container">
+        Already a User?
         <Link to="/login">Login</Link>
       </div>
       <div className="link-container">

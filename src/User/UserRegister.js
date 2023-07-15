@@ -25,7 +25,7 @@ export default function UserRegister() {
   return (
     <div>
       <div className="user-container">
-        <h1>Welcome to Todo App, Please SignUp</h1>
+        <h1>User SignUp</h1>
         <div>
           <input
             type="text"
@@ -50,7 +50,7 @@ export default function UserRegister() {
             onChange={handleInputPassword}
           />
           <div>
-            <button onClick={addButtonClick}>SignUp</button>
+            <button onClick={addButtonClick}>SIGNUP</button>
           </div>
         </div>
       </div>
