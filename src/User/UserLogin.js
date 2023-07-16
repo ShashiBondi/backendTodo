@@ -48,6 +48,12 @@ export default function UserLogin() {
           <div>
             <button onClick={addButtonClick}>LOGIN</button>
           </div>
+          <div>
+            <Link className="signup-link" to="/register">
+              Signup
+            </Link>
+            <span className="signup-text"> If You don't have an account</span>
+          </div>
         </div>
       </div>
     </div>

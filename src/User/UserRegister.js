@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import auth from "../FirebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const api = axios.create({
   baseURL: "http://localhost:9999/",
 });
@@ -27,11 +28,13 @@ export default function UserRegister() {
 
   async function addButtonClick() {
     console.log(auth);
+
     const response = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+
     console.log(response);
     const { user } = response;
     await updateProfile(user, { displayName: userName });
@@ -40,6 +43,7 @@ export default function UserRegister() {
       name: userName,
       email: email,
     });
+
     setUserName("");
     setEmail("");
     setPassword("");
@@ -75,6 +79,12 @@ export default function UserRegister() {
           />
           <div>
             <button onClick={addButtonClick}>SIGNUP</button>
+          </div>
+          <div>
+            <Link className="login-link" to="/login">
+              Login
+            </Link>
+            <span className="login-text"> If You have an account</span>
           </div>
         </div>
       </div>
