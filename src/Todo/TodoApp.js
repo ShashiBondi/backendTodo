@@ -3,8 +3,11 @@ import axios from "axios";
 import { v4 } from "uuid";
 import "./TodoApp.css";
 import { useNavigate } from "react-router";
+import { onAuthStateChanged } from "firebase/auth";
+import auth from "../FirebaseConfig";
+
 const api = axios.create({
-  baseURL: "http://localhost:9999/api/",
+  baseURL: "http://localhost:9999/api/users/",
 });
 
 const TodoApp = () => {
@@ -13,10 +16,12 @@ const TodoApp = () => {
   const [radio, setRadio] = useState("All");
   const [editTodoId, setEditTodoId] = useState();
   const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState({});
+  const [userId, setUserId] = useState("");
 
   const fetchTodos = async () => {
     try {
-      const response = await api.get("todos");
+      const response = await api.get(`${userId}/todos`);
       setTodos(response.data);
     } catch (error) {
       console.error("Error fetching todos:", error);
@@ -30,6 +35,20 @@ const TodoApp = () => {
   const handleInputChange = (event) => {
     setNewTodo(event.target.value);
   };
+  const handleAuthStateChange = onAuthStateChanged(auth, function (response) {
+    if (response) {
+      console.log(response);
+      const user = {
+        name: response.displayName,
+        email: response.email,
+        id: response.uid,
+      };
+      setUserDetails(user);
+      setUserId(user.id);
+    } else {
+      console.log("User Signed Out");
+    }
+  });
 
   const handleRadio = (event) => {
     setRadio(event.target.value);
@@ -38,7 +57,7 @@ const TodoApp = () => {
   const createTodo = async () => {
     try {
       if (!newTodo.trim()) return;
-      const response = await api.post("todos", {
+      const response = await api.post(`${userId}/todos`, {
         content: newTodo,
         completed: false,
       });
@@ -54,7 +73,7 @@ const TodoApp = () => {
   const updateTodo = async () => {
     if (!newTodo.trim()) return;
     const targetTodo = todos.find((item) => item.id === editTodoId);
-    await api.put(`todos/${editTodoId}`, {
+    await api.put(`${userId}/todos/${editTodoId}`, {
       content: newTodo,
       completed: targetTodo.completed,
     });
@@ -65,7 +84,7 @@ const TodoApp = () => {
 
   const deleteTodo = async (id) => {
     try {
-      await api.delete(`todos/${id}`);
+      await api.delete(`${userId}todos/${id}`);
       const filteredTodos = todos.filter((item) => item.id !== id);
       setTodos(filteredTodos);
     } catch (error) {
@@ -77,7 +96,9 @@ const TodoApp = () => {
     try {
       const targetTodoItem = todos.find((item) => item.id === id);
 
-      await api.put(`todos/${id}`, { completed: !targetTodoItem.completed });
+      await api.put(`${userId}todos/${id}`, {
+        completed: !targetTodoItem.completed,
+      });
       const toggledTodos = todos.map((item) => {
         if (item.id === id) {
           item.completed = !item.completed;
@@ -95,6 +116,7 @@ const TodoApp = () => {
     setNewTodo(targetTodoItem.content);
     setEditTodoId(id);
   };
+
   const handleLogoutButton = () => {
     navigate("/");
   };
@@ -133,7 +155,7 @@ const TodoApp = () => {
 
   return (
     <div className="todo-app">
-      <h1>Welcome User, Add Your Todo's </h1>
+      <h1>Welcome {userDetails.name}, Add Your Todo's </h1>
 
       <div className="input-container">
         <input
