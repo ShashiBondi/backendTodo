@@ -108,10 +108,12 @@ const TodoApp = () => {
       const targetTodoItem = todos.find((item) => item.id === id);
 
       await api.put(`${userDetails.id}/todos/${id}`, {
+        content: targetTodoItem.content,
         completed: !targetTodoItem.completed,
       });
       const toggledTodos = todos.map((item) => {
         if (item.id === id) {
+          item.content = item.content;
           item.completed = !item.completed;
         }
         return item;
@@ -147,7 +149,9 @@ const TodoApp = () => {
     .map((item) => {
       return (
         <div key={item.id} className="todo-item">
-          <span className={item.completed ? "completed" : ""}>
+          <span
+            className={item.completed && radio === "All" ? "completed" : ""}
+          >
             {item.content}
           </span>
           <button className="delete-button" onClick={() => deleteTodo(item.id)}>

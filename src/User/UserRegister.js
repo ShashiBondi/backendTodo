@@ -65,7 +65,7 @@ export default function UserRegister() {
         <div>
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Enter your Email"
             value={email}
             onChange={handleInputEmail}
           />
@@ -73,7 +73,7 @@ export default function UserRegister() {
         <div>
           <input
             type="password"
-            placeholder="Enter your Your password"
+            placeholder="Enter your Your Password"
             value={password}
             onChange={handleInputPassword}
           />
