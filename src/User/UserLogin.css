@@ -9,28 +9,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     background-color: skyblue;
   }
-  .signup-link {
-    display: inline-block;
-    font-size: 16px;
-    text-decoration: none;
-    color: hsl(0, 0%, 100%);
-    background-color: green;
-    padding: 10px 20px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-  }
-  
-  .signup-link:hover {
-    background-color: #0400ff;
-  }
-  
-  .signup-text {
-    font-size: 15px;
-    color: black;
-    margin-left: 10px;
-    font-weight: 500;
-  }
+
   .user-container h1 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -62,4 +41,7 @@
   .user-container button:active {
     background-color: #ff554f;
   }
-  
+  .footer-button{
+    display: flex;
+    justify-content: space-evenly;
+  }

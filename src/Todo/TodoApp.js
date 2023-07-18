@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../FirebaseConfig";
 
-const api = axios.create({
+const todoApi = axios.create({
   baseURL: "http://localhost:9999/api/users/",
 });
 
@@ -21,7 +21,7 @@ const TodoApp = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await api.get(`${userDetails.id}/todos`);
+      const response = await todoApi.get(`${userDetails.id}/todos`);
 
       setTodos(response.data);
     } catch (error) {
@@ -31,7 +31,7 @@ const TodoApp = () => {
 
   const getCurrentUserDetails = () => {
     const currentUser = auth.currentUser;
-    console.log(currentUser);
+
     if (currentUser) {
       const user = {
         name: currentUser.displayName,
@@ -64,7 +64,7 @@ const TodoApp = () => {
   const createTodo = async () => {
     try {
       if (!newTodo.trim()) return;
-      const response = await api.post(`${userDetails.id}/todos`, {
+      const response = await todoApi.post(`${userDetails.id}/todos`, {
         content: newTodo,
         completed: false,
       });
@@ -72,7 +72,7 @@ const TodoApp = () => {
       const newTodos = todos.concat(todoItem);
       setTodos(newTodos);
     } catch (error) {
-      console.log("error occurred while creating todo", error);
+      console.log("error occurred while creating todo", error.message);
     }
     setNewTodo("");
   };
@@ -81,7 +81,7 @@ const TodoApp = () => {
     if (!newTodo.trim()) return;
     const targetTodo = todos.find((item) => item.id === editTodoId);
     try {
-      await api.put(`${userDetails.id}/todos/${editTodoId}`, {
+      await todoApi.put(`${userDetails.id}/todos/${editTodoId}`, {
         content: newTodo,
         completed: targetTodo.completed,
       });
@@ -89,17 +89,17 @@ const TodoApp = () => {
       setEditTodoId();
       fetchTodos();
     } catch (error) {
-      console.log("Error occured while Updating the ToDoItem", error);
+      window.alert("Error occured while Updating the ToDoItem", error.message);
     }
   };
 
   const deleteTodo = async (id) => {
     try {
-      await api.delete(`${userDetails.id}/todos/${id}`);
+      await todoApi.delete(`${userDetails.id}/todos/${id}`);
       const filteredTodos = todos.filter((item) => item.id !== id);
       setTodos(filteredTodos);
     } catch (error) {
-      console.log("error occurred while deleting the todo", error);
+      window.alert("error occurred while deleting the todo", error.message);
     }
   };
 
@@ -107,7 +107,7 @@ const TodoApp = () => {
     try {
       const targetTodoItem = todos.find((item) => item.id === id);
 
-      await api.put(`${userDetails.id}/todos/${id}`, {
+      await todoApi.put(`${userDetails.id}/todos/${id}`, {
         content: targetTodoItem.content,
         completed: !targetTodoItem.completed,
       });
@@ -120,7 +120,7 @@ const TodoApp = () => {
       });
       setTodos(toggledTodos);
     } catch (error) {
-      console.log("error occurred while toggling the item", error);
+      window.alert("error occurred while toggling the item", error.message);
     }
   };
 
@@ -136,7 +136,7 @@ const TodoApp = () => {
       setUserDetails({});
       navigate("/");
     } catch (error) {
-      console.log("Error occurred while logging out", error);
+      window.alert("Error occurred while logging out", error.message);
     }
   };
 

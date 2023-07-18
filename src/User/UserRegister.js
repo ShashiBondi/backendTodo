@@ -5,7 +5,7 @@ import auth from "../FirebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import axios from "axios";
 import { Link } from "react-router-dom";
-const api = axios.create({
+const userApi = axios.create({
   baseURL: "http://localhost:9999/",
 });
 export default function UserRegister() {
@@ -27,29 +27,27 @@ export default function UserRegister() {
   }
 
   async function addButtonClick() {
-    console.log(auth);
-
-    const response = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    console.log(response);
-    const { user } = response;
-    await updateProfile(user, { displayName: userName });
-    await api.post(`users`, {
-      userId: response.user.uid,
-      name: userName,
-      email: email,
-    });
-
-    setUserName("");
-    setEmail("");
-    setPassword("");
-    navigate("/login");
+    let response;
+    try {
+      response = await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = response;
+      await updateProfile(user, { displayName: userName });
+      await userApi.post(`users`, {
+        userId: response.user.uid,
+        name: userName,
+        email: email,
+      });
+      setUserName("");
+      setEmail("");
+      setPassword("");
+      navigate("/login");
+    } catch (error) {
+      window.alert(error.message);
+    }
   }
-
+  //   const handleLoginButtonClick = () => {
+  //     navigate("/login");
+  //   };
   return (
     <div>
       <div className="user-container">
@@ -77,14 +75,13 @@ export default function UserRegister() {
             value={password}
             onChange={handleInputPassword}
           />
-          <div>
-            <button onClick={addButtonClick}>SIGNUP</button>
-          </div>
-          <div>
-            <Link className="login-link" to="/login">
-              Login
-            </Link>
-            <span className="login-text"> If You have an account</span>
+          <div className="footer-button">
+            <div>
+              <button onClick={addButtonClick}>SignUp</button>
+            </div>
+            <div>
+              {/* <button onClick={handleLoginButtonClick}>Login</button> */}
+            </div>
           </div>
         </div>
       </div>

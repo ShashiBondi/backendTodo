@@ -17,14 +17,19 @@ export default function UserLogin() {
   }
 
   async function addButtonClick() {
-    console.log(auth);
-    const response = await signInWithEmailAndPassword(auth, email, password);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
 
-    setEmail("");
-    setPassword("");
-    navigate("/todos");
+      setEmail("");
+      setPassword("");
+      navigate("/todos");
+    } catch (error) {
+      window.alert(error.message);
+    }
   }
-
+  //   const handleSignUpButtonClick = () => {
+  //     navigate("/register");
+  //   };
   return (
     <div className="user-container">
       <div>
@@ -45,14 +50,13 @@ export default function UserLogin() {
             value={password}
             onChange={handleInputPassword}
           />
-          <div>
-            <button onClick={addButtonClick}>LOGIN</button>
-          </div>
-          <div>
-            <Link className="signup-link" to="/register">
-              Signup
-            </Link>
-            <span className="signup-text"> If You don't have an account</span>
+          <div className="footer-button">
+            <div>
+              <button onClick={addButtonClick}>Login</button>
+            </div>
+            <div>
+              {/* <button onClick={handleSignUpButtonClick}>SignUp</button> */}
+            </div>
           </div>
         </div>
       </div>
