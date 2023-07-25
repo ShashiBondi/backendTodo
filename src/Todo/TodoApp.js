@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./TodoApp.css";
 import { useNavigate } from "react-router";
-import { onAuthStateChanged } from "firebase/auth";
 import auth from "../FirebaseConfig";
 import TodoItem from "./TodoItem";
 import logo from "../logo.png";

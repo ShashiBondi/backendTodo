@@ -1,5 +1,8 @@
 import React from "react";
 
+import deleteIcon from "../delete.png";
+import editIcon from "../edit.png";
+
 function TodoItem(props) {
   const { item, handleEditButtonClick, deleteTodo, toggleComplete, radio } =
     props;
@@ -18,17 +21,17 @@ function TodoItem(props) {
       </div>
       <div className="box-2">
         {" "}
-        <button className="delete-button" onClick={() => deleteTodo(item.id)}>
-          Delete
-        </button>
-        <button
+        <span className="delete-button" onClick={() => deleteTodo(item.id)}>
+          <img src={deleteIcon} alt="Delete" width="24" height="24" />
+        </span>
+        <span
           className="update-button"
           onClick={() => {
             handleEditButtonClick(item.id);
           }}
         >
-          Edit
-        </button>
+          <img src={editIcon} alt="Edit" width="24" height="24" />
+        </span>
       </div>
     </div>
   );
