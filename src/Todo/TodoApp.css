@@ -60,16 +60,7 @@
     margin-left: 10px;
     cursor: pointer;
   }
-  
-  .delete-button {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .update-button {
-    background-color: #4caf50;
-    color: white;
-  }
+
   
   .todos-container {
     display: flex;
