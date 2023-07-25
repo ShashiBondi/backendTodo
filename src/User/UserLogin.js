@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./UserLogin.css";
+import "./User.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../FirebaseConfig";
+import logo from "../logo.png";
+
 export default function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +20,7 @@ export default function UserLogin() {
 
   async function addButtonClick() {
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-
+      await signInWithEmailAndPassword(auth, email, password);
       setEmail("");
       setPassword("");
       navigate("/todos");
@@ -27,37 +28,36 @@ export default function UserLogin() {
       window.alert(error.message);
     }
   }
-  //   const handleSignUpButtonClick = () => {
-  //     navigate("/register");
-  //   };
+
   return (
-    <div className="user-container">
-      <div>
-        <h1>User Login</h1>
+    <div className="login-page">
+      <div className="user-container">
+        <div>
+          <img src={logo} alt="Logo" className="homepage-logo" />
+        </div>
+        <div className="loginpageheader"> Welcome to To-do!</div>
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={handleInputEmail}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={handleInputPassword}
+        />
+
+        <button onClick={addButtonClick}>Login</button>
 
         <div>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={handleInputEmail}
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Enter your Your password"
-            value={password}
-            onChange={handleInputPassword}
-          />
-          <div className="footer-button">
-            <div>
-              <button onClick={addButtonClick}>Login</button>
-            </div>
-            <div>
-              {/* <button onClick={handleSignUpButtonClick}>SignUp</button> */}
-            </div>
-          </div>
+          Don't have an account?{" "}
+          <Link to="/register" className="link-text">
+            SignUp
+          </Link>
         </div>
       </div>
     </div>

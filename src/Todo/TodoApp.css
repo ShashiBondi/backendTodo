@@ -7,14 +7,7 @@
     border-radius: 8px;
   }
   
-  .todo-input {
-    padding: 8px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px;
-    width: 70%;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  }
+
   
   .add-button {
     padding: 8px 16px;
@@ -40,13 +33,19 @@
   .todo-item {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    background-color: #a7c7c6;
-    padding: 8px;
-    border-radius: 4px;
+   width: 80%;
+   justify-content: space-between;
+    background-color: #fff;
+    padding: 15px 30px;
+    border-radius: 15px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    font-weight: 600;
   }
-  
+  .box-1{
+    display: flex;
+    gap: 5px;
+  }
   .completed {
     text-decoration: line-through;
   }
@@ -74,23 +73,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 20px;
+
   }
   
-  .todo-item:not(:last-child) {
-    margin-bottom: 10px;
-  }
+ 
   .button-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 25px;
   
     
   }
   .button-btn{
-    padding: 6px 10px;
+    padding: 15px;
+    width: 60%;
     border: none;
     border-radius: 4px;
-    margin-left: 10px;
+  
     cursor: pointer;
     background-color: #f44336;
     color: azure;
@@ -98,4 +98,17 @@
   .input-container{
     display: flex;
     justify-content: space-evenly;
+  }
+  .input-container input:focus{
+    outline: none !important;
+    border:1px solid #0eb770;
+  }
+  .todo-input {
+    padding: 15px;
+    
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 70%;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   }

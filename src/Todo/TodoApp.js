@@ -5,7 +5,8 @@ import "./TodoApp.css";
 import { useNavigate } from "react-router";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../FirebaseConfig";
-
+import Typical from "react-typical";
+import TodoItem from "./TodoItem";
 const todoApi = axios.create({
   baseURL: "http://localhost:9999/api/users/",
 });
@@ -31,7 +32,6 @@ const TodoApp = () => {
 
   const getCurrentUserDetails = () => {
     const currentUser = auth.currentUser;
-
     if (currentUser) {
       const user = {
         name: currentUser.displayName,
@@ -148,36 +148,19 @@ const TodoApp = () => {
     })
     .map((item) => {
       return (
-        <div key={item.id} className="todo-item">
-          <span
-            className={item.completed && radio === "All" ? "completed" : ""}
-          >
-            {item.content}
-          </span>
-          <button className="delete-button" onClick={() => deleteTodo(item.id)}>
-            Delete
-          </button>
-          <button
-            className="update-button"
-            onClick={() => {
-              handleEditButtonClick(item.id);
-            }}
-          >
-            Edit
-          </button>
-          <input
-            type="checkbox"
-            checked={item.completed}
-            onChange={() => toggleComplete(item.id)}
-          />
-        </div>
+        <TodoItem
+          item={item}
+          radio={radio}
+          deleteTodo={deleteTodo}
+          handleEditButtonClick={handleEditButtonClick}
+          toggleComplete={toggleComplete}
+        />
       );
     });
 
   return (
     <div className="todo-app">
       <h1>Welcome {userDetails.name}, Add Your Todo's </h1>
-
       <div className="input-container">
         <input
           type="text"
@@ -222,10 +205,8 @@ const TodoApp = () => {
           Pending Tasks
         </span>
       </div>
-
-      <div className="todos-container">{displayTodos}</div>
+      <div className="todos-container">{displayTodos}</div>{" "}
       <div className="button-container">
-        {" "}
         <button className="button-btn" onClick={handleLogoutButton}>
           Logout
         </button>

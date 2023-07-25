@@ -21,7 +21,7 @@ import UserRegister from "./User/UserRegister";
 
 import UserLogin from "./User/UserLogin";
 import TodoApp from "./Todo/TodoApp";
-import Main from "./Main";
+import Home from "./LandingPage/Home";
 
 const App = () => {
   return (
@@ -32,7 +32,7 @@ const App = () => {
             <Route exact path="/login" Component={UserLogin}></Route>
             <Route exact path="/register" Component={UserRegister}></Route>
             <Route exact path="/todos" Component={TodoApp}></Route>
-            <Route exact path="" Component={Main}></Route>
+            <Route exact path="" Component={Home}></Route>
           </Routes>
         </div>
       </Router>

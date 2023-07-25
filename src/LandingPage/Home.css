@@ -1,0 +1,43 @@
+.get-started-btn{
+    background-color: #0eb770;
+    border: 1px solid #0eb770;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 13px 50px;
+    text-decoration: none;
+    transition: .4s ease;
+}
+.homepage-logo{
+    width: 90px;
+    cursor: pointer;
+}
+.homepage-title{
+    font-size: 32px;
+    font-family: Manrope,sans-serif;
+    font-weight: 800;
+    margin: 0px;
+}
+.homepage-description{
+    font-weight: 500;
+    font-size: 18px;
+    font-family: Manrope,sans-serif;
+
+}
+.homepage-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+}
+.homepage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+   
+}

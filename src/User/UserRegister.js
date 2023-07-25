@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import "./UserRegister.css";
+import "./User.css";
 import { useNavigate } from "react-router-dom";
 import auth from "../FirebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import logo from "../logo.png";
 const userApi = axios.create({
   baseURL: "http://localhost:9999/",
 });
@@ -45,45 +46,37 @@ export default function UserRegister() {
       window.alert(error.message);
     }
   }
-  //   const handleLoginButtonClick = () => {
-  //     navigate("/login");
-  //   };
+
   return (
-    <div>
+    <div className="register-page">
       <div className="user-container">
-        <h1>User SignUp</h1>
         <div>
-          <input
-            type="text"
-            placeholder="Enter your Name"
-            value={userName}
-            onChange={handleInputName}
-          />
+          <img src={logo} alt="Logo" className="homepage-logo" />
         </div>
-        <div>
-          <input
-            type="email"
-            placeholder="Enter your Email"
-            value={email}
-            onChange={handleInputEmail}
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Enter your Your Password"
-            value={password}
-            onChange={handleInputPassword}
-          />
-          <div className="footer-button">
-            <div>
-              <button onClick={addButtonClick}>SignUp</button>
-            </div>
-            <div>
-              {/* <button onClick={handleLoginButtonClick}>Login</button> */}
-            </div>
-          </div>
-        </div>
+        <div className="registerpageheader"> Welcome to To-do!</div>
+
+        <input
+          type="text"
+          placeholder=" Name"
+          value={userName}
+          onChange={handleInputName}
+        />
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={handleInputEmail}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={handleInputPassword}
+        />
+
+        <button onClick={addButtonClick}>SignUp</button>
       </div>
     </div>
   );
