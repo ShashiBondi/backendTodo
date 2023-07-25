@@ -16,18 +16,21 @@ function Home() {
         </div>
         <h1 className="homepage-title">
           A better{" "}
-          <span>
-            <Typical
-              steps={[
-                "to-do list",
-                3500,
-                "",
-                1000,
-                "a personalised task manager",
-              ]}
-              loop={Infinity}
-            />{" "}
-          </span>
+          <Typical
+            className="custom-header"
+            steps={[
+              "To-do list",
+              2500,
+              "",
+              1500,
+              "personalised task manager",
+              2500,
+              "",
+              1500,
+            ]}
+            loop={Infinity}
+            wrapper="span"
+          />{" "}
           for work
         </h1>
         <div className="homepage-description">

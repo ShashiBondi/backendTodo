@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { v4 } from "uuid";
 import "./TodoApp.css";
 import { useNavigate } from "react-router";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../FirebaseConfig";
-import Typical from "react-typical";
 import TodoItem from "./TodoItem";
+import logo from "../logo.png";
+
 const todoApi = axios.create({
   baseURL: "http://localhost:9999/api/users/",
 });
@@ -160,20 +160,24 @@ const TodoApp = () => {
 
   return (
     <div className="todo-app">
-      <h1>Welcome {userDetails.name}, Add Your Todo's </h1>
+      <div className="header">
+        <img src={logo} alt="Logo" className="homepage-logo" />
+
+        <h1>Welcome {userDetails.name}! Add Your Tasks</h1>
+      </div>
       <div className="input-container">
         <input
           type="text"
           value={newTodo}
           onChange={handleInputChange}
-          placeholder="New Todo"
+          placeholder="New Task"
           className="todo-input"
         />
         <button
           className="add-button"
           onClick={editTodoId ? updateTodo : createTodo}
         >
-          {editTodoId ? "Update Todo" : "Add Todo"}
+          {editTodoId ? "Update Task" : "Add Task"}
         </button>
       </div>
       <div className="filter-options">

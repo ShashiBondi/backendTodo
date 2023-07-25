@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import auth from "../FirebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import logo from "../logo.png";
 const userApi = axios.create({
   baseURL: "http://localhost:9999/",
@@ -53,7 +52,7 @@ export default function UserRegister() {
         <div>
           <img src={logo} alt="Logo" className="homepage-logo" />
         </div>
-        <div className="registerpageheader"> Welcome to To-do!</div>
+        <div className="registerpageheader"> Welcome to Task Manager!</div>
 
         <input
           type="text"

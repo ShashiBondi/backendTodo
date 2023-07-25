@@ -35,7 +35,7 @@ export default function UserLogin() {
         <div>
           <img src={logo} alt="Logo" className="homepage-logo" />
         </div>
-        <div className="loginpageheader"> Welcome to To-do!</div>
+        <div className="loginpageheader"> Welcome to Task Manager!</div>
 
         <input
           type="email"
