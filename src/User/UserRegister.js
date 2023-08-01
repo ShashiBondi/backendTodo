@@ -7,7 +7,11 @@ import axios from "axios";
 import logo from "../logo.png";
 const userApi = axios.create({
   baseURL: "http://44.202.55.191/",
+  headers: {
+    Accept: "application/json, text/plain",
+  },
 });
+
 export default function UserRegister() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
