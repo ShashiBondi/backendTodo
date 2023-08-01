@@ -7,7 +7,7 @@ import TodoItem from "./TodoItem";
 import logo from "../logo.png";
 
 const todoApi = axios.create({
-  baseURL: "http://localhost:9999/api/users/",
+  baseURL: "http://44.202.55.191/api/users/",
 });
 
 const TodoApp = () => {

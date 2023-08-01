@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import axios from "axios";
 import logo from "../logo.png";
 const userApi = axios.create({
-  baseURL: "http://localhost:9999/",
+  baseURL: "http://44.202.55.191/",
 });
 export default function UserRegister() {
   const navigate = useNavigate();
