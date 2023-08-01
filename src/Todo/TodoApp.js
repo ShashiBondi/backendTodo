@@ -9,7 +9,7 @@ import logo from "../logo.png";
 const todoApi = axios.create({
   baseURL: "http://44.202.55.191/api/users/",
   headers: {
-    Accept: "application/json, text/plain",
+    Accept: "application/json,text/plain, */*",
   },
 });
 

@@ -8,7 +8,7 @@ import logo from "../logo.png";
 const userApi = axios.create({
   baseURL: "http://44.202.55.191/",
   headers: {
-    Accept: "application/json, text/plain",
+    Accept: "application/json, text/plain, */*",
   },
 });
 
